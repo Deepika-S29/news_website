@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+  <h1>User generated page</h1>
+  <div class="row">
+    {% for news_item in news_data %}
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <img src="data:image/jpeg;base64,{{ news_item.image }}" class="card-img-top" alt="{{ news_item.description }}">
+        <div class="card-body">
+          <p class="card-text">{{ news_item.description }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

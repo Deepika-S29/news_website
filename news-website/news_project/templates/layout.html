@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="//fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{{url_for('static',filename = 'assets/css/style-starter.css')}}">
+    <!-- CSS for select option from bootstrap -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
+    
+    <style>
+        .navbar-item {
+            margin-right: 10px; /* Adjust the margin value as needed */
+        }
+    </style>
+    
+</head>
+
+<body>
+
+    <header class="w3l-header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light fill px-lg-0 py-0 px-sm-3 px-0">
+                <a href="{{url_for('core.index')}}">
+                    <img src="{{url_for('static',filename = 'assets/images/website_logo.png')}}" alt="News19" title="News19" style="height:35px;padding-right: 4px;"/>
+                </a>
+                
+                <a class="navbar-brand" href="{{url_for('core.index')}}">Express Dispatch</a>
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="fa icon-expand fa-bars"></span>
+                    <span class="fa icon-close fa-times"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- ... (your navigation menu) ... -->
+                    <ul class="navbar-nav" id="navbarList"></ul>
+                        <li class="nav-item {{'active' if request.path == '/' else ''}}">
+                            <a class="nav-link" href="{{url_for('core.index')}}">Home</a>
+                        </li>
+                        <li class="nav-item {{'active' if request.path == '/latest' else ''}}">
+                            <a class="nav-link" href="{{url_for('general.general_news',news_category= 'latest')}}">Latest</a>
+                        </li>
+                        <li class="nav-item {{'active' if request.path == '/india' else ''}}">
+                            <a class="nav-link" href="{{url_for('general.general_news',news_category= 'india')}}">India</a>
+                        </li>
+                        <li class="nav-item {{'active' if request.path == '/world' else ''}}">
+                            <a class="nav-link" href="{{url_for('general.general_news',news_category= 'world')}}">World</a>
+                        </li>
+                        <li class="nav-item {{'active' if request.path == '/entertainment' else ''}}">
+                            <a class="nav-link" href="{{url_for('general.general_news',news_category= 'entertainment')}}">Entertainment</a>
+                        </li>
+                        <li class="nav-item {{'active' if request.path == '/science' else ''}}">
+                            <a class="nav-link" href="{{url_for('general.general_news',news_category= 'science')}}">Science</a>
+                        </li>
+                        <li class="nav-item {{'active' if request.path == '/business' else ''}}">
+                            <a class="nav-link" href="{{url_for('general.general_news',news_category= 'business')}}">Business</a>
+                        </li>
+                        <li class="nav-item {{'active' if request.path == '/offbeat' else ''}}">
+                            <a class="nav-link" href="{{url_for('general.general_news',news_category= 'offbeat')}}">Offbeats</a>
+                        </li>
+                        <li class="nav-item {{'active' if '/sports' in request.path else ''}}">
+                            <a class="nav-link" href="{{url_for('general.select_sports')}}">Sports</a>
+                        </li>
+                        <li class="nav-item {{'active' if '/cities' in request.path else ''}}">
+                            <a class="nav-link" href="{{url_for('general.city_news')}}">Cities</a>
+                        </li>
+                        
+                        <li class="navbar-item">
+                            <a href="{{ url_for('core.contact') }}">content</a>
+                        </li>
+                        <li class="navbar-item">
+                            <a href="{{ url_for('core.login') }}">Login</a>
+                        </li>
+                        
+                        <li class="navbar-item">
+                            <a href="{{ url_for('core.news_grid') }}">User</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <!-- toggle switch for light and dark theme -->
+                <div class="mobile-position">
+                    <nav class="navigation">
+                        <div class="theme-switch-wrapper">
+                            <label class="theme-switch" for="checkbox">
+                                <input type="checkbox" id="checkbox">
+                                <div class="mode-container">
+                                    <i class="gg-sun"></i>
+                                    <i class="gg-moon"></i>
+                                </div>
+                            </label>
+                        </div>
+                    </nav>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Add the <marquee> tag to display a welcome message -->
+        <marquee behavior="scroll" direction="left" scrollamount="7" style="padding: 10px 20px; background-color: rgb(132, 132, 221); color: black; font-size: 18px;" id="breakingNewsMarquee">
+            <strong>Express Dispatch:</strong> <span id="breakingNews">Stay Informed with the Latest Updates - National, International, and More. Check Out Our Exclusive Reports and Analysis. Don't Miss Out!</span>
+        </marquee>
+
+
+        <form class="form-inline my-2 my-lg-0 ml-auto" id="searchForm">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        
+        <div id="searchSuggestions"></div>
+        
+        
+    
+
+    {% block content%}
+    {% endblock %}
+
+    <!-- footer-28 block -->
+    <section class="app-footer">
+        <footer class="footer-28 py-5">
+            <div class="footer-bg-layer">
+                <div class="container py-lg-3">
+                    <div class="row footer-top-28">
+                        <div class="col-lg-4 footer-list-28 copy-right mb-lg-0 mb-sm-5 mt-sm-0 mt-4">
+                            <a href="{{url_for('core.index')}}">
+                                <img src="{{url_for('static',filename = 'assets/images/website_logo.png')}}" alt="News19 logo" title="News19 logo" style="height:35px;padding-right: 4px;"/>
+                            </a>
+                            
+                            <a class="navbar-brand mb-3" href="{{url_for('core.index')}}">Express Dispatch</a>
+                            <p class="copy-footer-28"> © 2023. All Rights Reserved. </p>
+                            <h5 class="mt-2">Developed by <a href="https://github.com/indira-it21" target = "_blank">Creative Tech Brains</a></h5>
+                        </div>
+                        <div class="col-lg-8 row">
+                            <div class="col-sm-4 col-6 footer-list-28">
+                                <h6 class="footer-title-28">Useful links</h6>
+                                <ul>
+                                    <li><a href="https://www.ndtv.com/">News Source</a></li>
+                                    <li><a href="">API used</a></li>
+                                    <li><a href="https://github.com/indira-it21">Developer</a></li>
+                                    <li><a href="#">Source Code</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-4 col-6 footer-list-28">
+                                <h6 class="footer-title-28">Categories</h6>
+                                <ul>
+                                    <li><a href="{{url_for('general.general_news',news_category= 'latest')}}" target = "_blank">Latest</a></li>
+                                    <li><a href="{{url_for('general.general_news',news_category= 'india')}}" target = "_blank">India</a></li>
+                                    <li><a href="{{url_for('general.general_news',news_category= 'world')}}" target = "_blank"> World</a></li>
+                                    <li><a href="{{url_for('general.general_news',news_category= 'science')}}" target = "_blank">Science</a></li>
+                                    <li><a href="{{url_for('general.general_news',news_category= 'business')}}" target = "_blank">Business</a></li>
+                                    <li><a href="{{url_for('general.general_news',news_category= 'entertainment')}}" target = "_blank">Entertainment</a></li>
+                                    <li><a href="{{url_for('general.general_news',news_category= 'offbeat')}}" target = "_blank">Offbeats</a></li>
+                                    <li><a href="{{url_for('general.select_sports')}}" target = "_blank"> Sports</a></li>
+                                    <li><a href="{{url_for('general.city_news')}}" target = "_blank">Cities</a></li>
+                                </ul>
+                                
+                            </div>
+                            <div class="col-sm-4 col-6 footer-list-28 mt-sm-0 mt-4">
+                                <h6 class="footer-title-28">Social Media</h6>
+                                <ul class="social-icons">
+                                    <li class="facebook"> <a href="#facebook"><span class="fa fa-facebook"></span> Facebook</a></li>
+                                    <li class="twitter">  <a href="#twitter"><span class="fa fa-twitter"></span> Twitter</a></li>
+                                    <li class="linkedin"> <a href="#linkedin"><span class="fa fa-linkedin"></span> Linkedin</a></li>
+                                    <li class="dribbble"> <a href="#dribbble"><span class="fa fa-dribbble"></span> Dribbble</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    <!-- move top -->
+        <button onclick="topFunction()" id="movetop" title="Go to top">
+            <span class="fa fa-angle-up"></span>
+        </button>
+    </section>
+   
+    <!-- move top button and JavaScript scripts -->
+    <button onclick="topFunction()" id="movetop" title="Go to top">
+        <span class="fa fa-angle-up"></span>
+    </button>
+
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
+    
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+    
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+
+    <!-- disable body scroll which navbar is in active -->
+    <script>
+        $(function () {
+        $('.navbar-toggler').click(function () {
+            $('body').toggleClass('noscroll');
+        })
+        });
+    </script>
+
+<script>
+    // Function to fetch breaking news from NDTV API and update the marquee tag
+    async function fetchBreakingNews() {
+        try {
+            const response = await fetch('YOUR_NDTV_API_URL_HERE');
+            const data = await response.json();
+            const breakingNews = data.headlines; // Adjust this based on the API response structure
+            const breakingNewsSpan = document.getElementById('breakingNews');
+            const breakingNewsMarquee = document.getElementById('breakingNewsMarquee');
+            breakingNewsSpan.textContent = breakingNews;
+            breakingNewsMarquee.setAttribute('title', breakingNews); // Optional: Set title attribute for tooltip
+        } catch (error) {
+            console.error('Error fetching breaking news:', error);
+        }
+    }
+
+    // Call the function to fetch and update breaking news
+    fetchBreakingNews();
+</script>
+
+    <!-- Template JavaScript -->
+    <script src="{{url_for('static',filename = 'assets/js/jquery-3.3.1.min.js')}}"></script>
+
+    <!-- theme changer js -->
+    <script src="{{url_for('static',filename = 'assets/js/theme-change.js')}}"></script>
+
+    <!-- courses owlcarousel -->
+    <script src="{{url_for('static',filename = 'assets/js/owl.carousel.js')}}"></script>
+
+    <!-- script for testimonials -->
+    <script>
+        $(document).ready(function () {
+        $('.owl-testimonial').owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: true,
+            responsiveClass: true,
+            autoplay: false,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+            0: {
+                items: 1,
+                nav: false
+            },
+            480: {
+                items: 1,
+                nav: false
+            },
+            667: {
+                items: 1,
+                nav: true
+            },
+            1000: {
+                items: 1,
+                nav: true
+            }
+            }
+        })
+        })
+    </script>
+
+    <!-- bootstrap -->
+    <script src="{{url_for('static',filename = 'assets/js/bootstrap.min.js')}}"></script>
+
+    <!-- js for selct option -->
+    <script src="https://kit.fontawesome.com/577845f6a5.js" 
+        crossorigin="anonymous">
+    </script>
+
+    <!-- Optional JavaScript -->
+    <script src = "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
+    
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+    
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    
+        // Function to perform the search when the form is submitted
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.trim();
+    
+            // Redirect to the search results page with the query parameter
+            window.location.href = '/search_results.html?query=' + encodeURIComponent(query);
+        });
+    
+        // Function to fetch breaking news from NDTV API and update the marquee tag
+        async function fetchBreakingNews() {
+            try {
+                const response = await fetch('YOUR_NDTV_API_URL_HERE');
+                const data = await response.json();
+                const breakingNews = data.headlines; // Adjust this based on the API response structure
+                const breakingNewsSpan = document.getElementById('breakingNews');
+                const breakingNewsMarquee = document.getElementById('breakingNewsMarquee');
+                breakingNewsSpan.textContent = breakingNews;
+                breakingNewsMarquee.setAttribute('title', breakingNews); // Optional: Set title attribute for tooltip
+            } catch (error) {
+                console.error('Error fetching breaking news:', error);
+            }
+        }
+    
+        // Call the function to fetch and update breaking news
+        fetchBreakingNews();
+    </script>
+    
+
+</body>
+</html>
+

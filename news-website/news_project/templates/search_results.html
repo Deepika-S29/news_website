@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <div id="searchQuery"></div>
+
+    <script>
+        // Function to extract and display the search query from the URL
+        function displaySearchQuery() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('query');
+
+            if (query) {
+                const searchQueryDiv = document.getElementById('searchQuery');
+                searchQueryDiv.textContent = 'Search query: ' + decodeURIComponent(query);
+            }
+        }
+
+        // Call the function to display the search query
+        displaySearchQuery();
+    </script>
+</body>
+</html>

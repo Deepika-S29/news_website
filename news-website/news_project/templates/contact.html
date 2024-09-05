@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<body></br></br></br></br></br>
+    <div align="center">
+        <div align="center" class="border">
+            <div class="header">
+                <h1 class="word">User content generation</h1>
+            </div></br></br></br>
+            <h2 class="word">
+                <form action="{{ url_for('core.contact') }}" method="post" enctype="multipart/form-data">
+                    <div class="msg">{{ msg }}</div>
+                    <input id="image" name="image" type="file" accept="image/*" class="textbox" /></br></br>
+                    <input id="description" name="description" type="text" placeholder="Enter Image Description" class="textbox" /></br></br>
+                    <input type="submit" class="btn" value="Submit" /></br>
+                </form>
+            </h2>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
